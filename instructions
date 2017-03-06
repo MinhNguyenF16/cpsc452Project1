@@ -1,1 +1,6 @@
 ssh minhnguyen16@ecs.fullerton.edu
+
+git add . 
+git commit -m " "
+
+git push -u origin master
