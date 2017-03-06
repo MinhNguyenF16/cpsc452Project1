@@ -1,6 +1,7 @@
 #include "Caesar.h"
 #include <iostream>
 
+using namespace std;
 
 /**
  * Sets the key to use
@@ -10,6 +11,8 @@
 bool Caesar::setKey(const string& key)
 { 
 	cout << key <<endl;
+	int numericKey =  stoi(key);
+	cout << numericKey <<endl;
 	return false;  
 }
 
@@ -23,8 +26,14 @@ bool Caesar::setKey(const string& key)
  */
 string Caesar::encrypt(const string& plaintext)
 { 
-	
+	// ASCII value: A = 65, B = 66 ... Z = 90 
 	cout << plaintext<<endl;
+	for (int i=0; i<plaintext.length(); i++)
+	{
+		//if ( int(plaintext[i]) - key ) >= 65 )
+
+
+	}
 	return "testingencyption11"; 
 }
 

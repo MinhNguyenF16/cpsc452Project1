@@ -7,6 +7,14 @@
 
 using namespace std;
 
+void toUppercase(string& str)
+{
+	for (int i=0; i<str.length(); i++)
+	{
+		str[i] = toupper(str[i]);
+	}
+}
+
 int main(int argc, char** argv)
 {
 	/* REPLACE THIS PART WITH YOUR CODE 
@@ -20,15 +28,23 @@ int main(int argc, char** argv)
 	string inputFile = argv[4];
 	string outputFile = argv[5];
 
+	// testing stoi
+	string num = "200";
+	int x = stoi(num);
+	cout << x <<endl;
+
 	cout <<cipherName <<key <<mode <<inputFile <<outputFile <<endl;
 
 	// open file and read
 	ifstream readFile;
 	readFile.open(inputFile.c_str());
-	string data;
+	string data;	
 	readFile >> data;
 	readFile.close(); 
+	toUppercase(data);
 	cout << data << endl;
+	cout << char(int('A')) << "  " << int('B')<< "  " << int('c')<<endl;
+
 		
 	CipherInterface* cipher = NULL;
 
@@ -47,7 +63,7 @@ int main(int argc, char** argv)
 	
 	/* Set the encryption key */
 	//cipher->setKey("security");
-	cipher->setKey("security");
+	cipher->setKey(key);
 	
 	/* Perform encryption */
 	string cipherText = cipher->encrypt("hello world");
@@ -68,3 +84,4 @@ int main(int argc, char** argv)
 	
 	return 0;
 }
+
