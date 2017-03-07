@@ -2,6 +2,7 @@
 #include "CipherInterface.h"
 #include "Playfair.h"
 #include "Caesar.h"
+#include "Railfence.h"
 #include <iostream>
 #include <fstream>
 
@@ -27,23 +28,19 @@ int main(int argc, char** argv)
 	string mode = argv[3];
 	string inputFile = argv[4];
 	string outputFile = argv[5];
-
-	// testing stoi
-	string num = "200";
-	int x = stoi(num);
-	cout << x <<endl;
+	string outputData;
 
 	cout <<cipherName <<key <<mode <<inputFile <<outputFile <<endl;
 
 	// open file and read
 	ifstream readFile;
 	readFile.open(inputFile.c_str());
-	string data;	
-	readFile >> data;
+	string inputData;	
+	readFile >> inputData;
 	readFile.close(); 
-	toUppercase(data);
-	cout << data << endl;
-	cout << char(int('A')) << "  " << int('B')<< "  " << int('c')<<endl;
+	toUppercase(inputData); // Converting the data into all uppercase
+	cout << "Data received: "<< inputData << endl;
+	//cout << char(int('A')) << "  " << int('B')<< "  " << int('c')<<endl;
 
 		
 	CipherInterface* cipher = NULL;
@@ -51,7 +48,8 @@ int main(int argc, char** argv)
 	/* Create an instance of the Playfair cipher */	
 	//CipherInterface* cipher = new Playfair();
 	//cipher = new Playfair();
-	cipher = new Caesar();
+	//cipher = new Caesar();
+	cipher = new Railfence();
 	
 	/* Error checks */
 	if(!cipher)
@@ -66,18 +64,29 @@ int main(int argc, char** argv)
 	cipher->setKey(key);
 	
 	/* Perform encryption */
-	string cipherText = cipher->encrypt("hello world");
-	cout << cipherText<<endl;
+	if (mode == "ENC")
+	{
+		string cipherText = cipher->encrypt(inputData);
+		cout << "Cipher text: "<< cipherText<<endl;
+		outputData = cipherText;
+	}
 	
 	/* Perform decryption */
-	string plainText = cipher->decrypt(cipherText);
-	cout << plainText<<endl;
+	else if (mode == "DEC")
+	{
+		//string plainText = cipher->decrypt(cipherText);
+		string plainText = cipher->decrypt(inputData);
+		cout << "Plain text: "<< plainText<<endl;
+		outputData = plainText;
+	}
 
 	// writing output file
 	ofstream writeFile;
-	writeFile.open("writingsample.txt");
-	string outputdata = "zzzzzzz";
-	writeFile << outputdata;
+	//writeFile.open("writingsample.txt");
+	//string outputdata = "zzzzzzz";
+	//writeFile << outputdata;
+	writeFile.open(outputFile);
+	writeFile << outputData;
 	writeFile.close(); 
 	//cout << data << endl;
 
