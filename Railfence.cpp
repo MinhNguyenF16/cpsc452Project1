@@ -82,6 +82,41 @@ string Railfence::encrypt(const string& plainText)
 string Railfence::decrypt(const string& cipherText) 
 { 
 	string decryptedText ="";
+	
+	int stringLength = cipherText.length();
+	int rowLength = stringLength / RailfenceKey;
+	int extraLetterRows = stringLength % RailfenceKey;
+	int index = 0;
+	int rowIndex = 0;
+	int cycleCount = 0;
+
+	// runs through the entire plaintext
+	while (decryptedText.length() < cipherText.length() )
+	{
+		rowIndex = 0;
+		index = cycleCount;
+
+		for (int i = 1; i< RailfenceKey+1; i++)
+		{
+			if ( decryptedText.length() < cipherText.length() )
+			{
+				decryptedText = decryptedText + cipherText[index];
+				cout << index << endl;
+			}
+
+			if (rowIndex < extraLetterRows)
+			{
+				index = index + rowLength + 1  ;
+			}
+			else
+			{
+				index = index + rowLength ;
+			}
+			rowIndex++;
+		}
+
+		cycleCount++;
+	}
 
 	return decryptedText; 
 }

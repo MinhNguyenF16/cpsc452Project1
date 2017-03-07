@@ -79,6 +79,10 @@ int main(int argc, char** argv)
 		cout << "Plain text: "<< plainText<<endl;
 		outputData = plainText;
 	}
+	else
+	{
+		cout << "Bad mode enter: ENC or DEC"<< endl;
+	}
 
 	// writing output file
 	ofstream writeFile;
