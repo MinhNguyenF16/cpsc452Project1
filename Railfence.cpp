@@ -33,27 +33,39 @@ string Railfence::encrypt(const string& plainText)
 	int index = 0;
 	int rowIndex = 0;
 
+	// runs through the entire plaintext
 	while (encryptedText.length() < plainText.length() )
 	{
+		// if it's a row w/ extra letter, then do for loop of rowlength+1
 		if (rowIndex < extraLetterRows)
 		{
 			for (int i = 0; i < rowLength+1; i++)
 			{
+				// apprehend the appropriate char from the plaintext index
 				encryptedText = encryptedText + plainText[index];
+				// then increment the index by key value 
 				index = index + RailfenceKey;
 				cout << index<<endl;
 			}
+
+			// increment the row index after a row is finished processing
 			rowIndex++;
 			index = rowIndex;
 		}
+
+		// else it's a regular row, then do for loop of rowlength
 		else
 		{
 			for (int i = 0; i < rowLength; i++)
 			{
+				// apprehend the appropriate char from the plaintext index
 				encryptedText = encryptedText + plainText[index];
+				// then increment the index by key value 
 				index = index + RailfenceKey;
 				cout << index<<endl;
 			}
+
+			// increment the row index after a row is finished processing
 			rowIndex++;
 			index = rowIndex;
 		}
