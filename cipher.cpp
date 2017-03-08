@@ -4,6 +4,7 @@
 #include "Caesar.h"
 #include "Railfence.h"
 #include "RowTransposition.h"
+#include "Vigenere.h"
 #include <iostream>
 #include <fstream>
 
@@ -51,7 +52,8 @@ int main(int argc, char** argv)
 	//cipher = new Playfair();
 	//cipher = new Caesar(); // DONE
 	//cipher = new Railfence(); // DONE
-	cipher = new RowTransposition();
+	//cipher = new RowTransposition();
+	cipher = new Vigenere();
 	
 	/* Error checks */
 	if(!cipher)
