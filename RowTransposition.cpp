@@ -20,13 +20,13 @@ vector<int> vect;
 bool RowTransposition::setKey(const string& key)
 { 
 	int i;
-	stringstream ss(key);
-	while (ss >> i)
+	stringstream strstream(key);
+	while (strstream >> i)
     {
         vect.push_back(i);
 
-        if (ss.peek() == ',')
-            ss.ignore();
+        if (strstream.peek() == ',')
+            strstream.ignore();
     }
 
     for (i=0; i< vect.size(); i++)
@@ -45,6 +45,47 @@ string RowTransposition::encrypt(const string& plainText)
 { 
 	string encryptedText ="";
 
+	int stringLength = plainText.length();
+	int columnAmount = vect.size();
+	int columnLength = stringLength / columnAmount;
+	int extraLetterColumns = stringLength % columnAmount;
+	int index = 0;
+	//int rowIndex = 0;
+	//int columnIndex = 0; 
+	int vectorIndex = 0;
+
+	while (encryptedText.length() < plainText.length() )
+	{
+		//if (columnIndex < extraLetterColumns)
+		if ( (vect.at(vectorIndex) - 1) < extraLetterColumns)
+		{
+			for (int x = 0; x < columnLength+1; x++)
+			{
+				index = x * columnAmount + (vect.at(vectorIndex) - 1 );
+				encryptedText = encryptedText + plainText[index];
+				cout<< index <<" ";
+				//rowIndex++;
+			}
+			vectorIndex++;
+			//columnIndex++;
+			//rowIndex = 0;
+		}
+		else
+		{
+			for (int x = 0; x < columnLength; x++)
+			{
+				index = x * columnAmount + (vect.at(vectorIndex) - 1 );
+				encryptedText = encryptedText + plainText[index];
+				cout<< index <<" ";
+				//rowIndex++;
+			}
+			vectorIndex++;
+			//columnIndex++;
+			//rowIndex = 0;
+		}
+	}
+
+	cout << stringLength<< " "<< columnAmount <<" " << columnLength<<" "<< extraLetterColumns<< endl;
 	return encryptedText; 
 }
 

@@ -12,6 +12,8 @@ bool Playfair::setKey(const string& key)
 	return false;  
 }
 
+char playfairMatrix[5][5];
+
 
 
 
@@ -20,11 +22,12 @@ bool Playfair::setKey(const string& key)
  * @param plaintext - the plaintext string
  * @return - the encrypted ciphertext string
  */
-string Playfair::encrypt(const string& plaintext)
+string Playfair::encrypt(const string& plainText)
 { 
 	
-	cout << plaintext;
-	return "testingencyption"; 
+	string encryptedText ="";
+
+	return encryptedText; 
 }
 
 /**
@@ -34,7 +37,9 @@ string Playfair::encrypt(const string& plaintext)
  */
 string Playfair::decrypt(const string& cipherText) 
 { 
-	return "testingdecyption"; 
+	string decryptedText ="";
+
+	return decryptedText; 
 	
 }
 
