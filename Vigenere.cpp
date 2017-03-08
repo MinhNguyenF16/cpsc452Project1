@@ -45,8 +45,14 @@ string Vigenere::encrypt(const string& plainText)
 	{
 		for (int i = 0; i<keySize; i++)
 		{
-			temp = (int(VigenereKey[i]) - 65 ) + (int(plainText[index]) - 65 );
-			temp = temp + 65; // put the value into A-Z ASCII range, 65-90
+			temp = (int(VigenereKey[i]) - 65 ) + (int(plainText[index]) );
+			
+			//temp = temp + 65; // put the value into A-Z ASCII range, 65-90
+			if (temp > 90)
+			{
+				temp = temp - 90 + 64;
+			}
+			cout << temp << "~~";
 			newChar = char(temp);
 			cout << newChar<< " "<< temp<<endl;
 			
