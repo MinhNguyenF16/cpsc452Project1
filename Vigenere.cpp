@@ -53,10 +53,14 @@ string Vigenere::encrypt(const string& plainText)
 				temp = temp - 90 + 64;
 			}
 			cout << temp << "~~";
-			newChar = char(temp);
+			if (temp > 64 && temp < 91)
+			{
+				newChar = char(temp);
+				encryptedText = encryptedText + newChar;
+			}
 			cout << newChar<< " "<< temp<<endl;
 			
-			encryptedText = encryptedText + newChar;
+			//encryptedText = encryptedText + newChar;
 			index++;
 		}
 		
@@ -74,7 +78,35 @@ string Vigenere::encrypt(const string& plainText)
 string Vigenere::decrypt(const string& cipherText) 
 { 
 	string decryptedText ="";
-	
+	int keySize = VigenereKey.length();
+	int index = 0;
+	int temp;
+	char newChar;
+
+	while (decryptedText.length() < cipherText.length() )
+	{
+		for (int i = 0; i<keySize; i++)
+		{
+			temp = ( int(cipherText[index]) - (int(VigenereKey[i]) - 65 )  );
+			
+			//temp = temp + 65; // put the value into A-Z ASCII range, 65-90
+			if (temp < 65)
+			{
+				temp = 91 - (65 - temp);
+			}
+			cout << temp << "~~";
+			if (temp > 64 && temp < 91)
+			{
+				newChar = char(temp);
+				decryptedText = decryptedText + newChar;
+			}
+			cout << newChar<< " "<< temp<<endl;
+			
+			//encryptedText = encryptedText + newChar;
+			index++;
+		}
+		
+	}
 	
 	return decryptedText; 
 }

@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 	//cipher = new Caesar(); // DONE
 	//cipher = new Railfence(); // DONE
 	//cipher = new RowTransposition(); // DONE
-	cipher = new Vigenere();
+	cipher = new Vigenere(); // DONE
 	
 	/* Error checks */
 	if(!cipher)
