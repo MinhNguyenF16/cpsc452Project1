@@ -15,8 +15,6 @@ using namespace std;
 
 vector<int> vect;
 
-
-
 bool RowTransposition::setKey(const string& key)
 { 
 	int i;
@@ -28,10 +26,10 @@ bool RowTransposition::setKey(const string& key)
         if (strstream.peek() == ',')
             strstream.ignore();
     }
-
+    /*
     for (i=0; i< vect.size(); i++)
     	cout << vect.at(i)<<endl;
-    
+    */
 	return false;  
 }
 
@@ -98,31 +96,81 @@ string RowTransposition::decrypt(const string& cipherText)
 	string decryptedText ="";
 
 	int stringLength = cipherText.length();
-	int columnAmount = vect.size();
+	int columnAmount = vect.size(); // amount of columns
 	int columnLength = stringLength / columnAmount;
 	int extraLetterColumns = stringLength % columnAmount;
+	string arr[columnAmount];
+	string tempStr = "";
+	//string reversedStr = "";
 	int index = 0;
-	//int rowIndex = 0;
-	//int columnIndex = 0; 
-	int vectorIndex = 0;
-	cout << stringLength<< " "<< columnAmount <<" " << columnLength<<" "<< extraLetterColumns<< endl;
-	
-	while (decryptedText.length() < cipherText.length() )
+
+	for (int j = 0; j < columnAmount; j++)
 	{
-		for (int y = 0; y < columnLength; y++)
+		if (vect.at(j) < extraLetterColumns+1)
 		{
-			for (int x = 0; x < columnAmount; x++)
+			cout << "vector val: " << vect.at(j)<<endl;
+			for (int a = 0; a < columnLength+1; a++)
 			{
-				index = columnLength *(vect.at(vectorIndex) - 1 ) + y ;
-				decryptedText = decryptedText + cipherText[index];
-				cout<< index <<" ";
-				//rowIndex++;
-				vectorIndex++;
+				cout << "index : "<< index << endl;
+				tempStr = tempStr + cipherText[index];	
+				index++;		
 			}
-			vectorIndex = 0;
+			arr[(vect.at(j)-1)] = tempStr;
+			tempStr="";
 		}
+		else
+		{
+			cout << "vector val: " << vect.at(j)<<endl;
+			for (int a = 0; a < columnLength; a++)
+			{
+				cout << "index : "<< index << endl;
+				tempStr = tempStr + cipherText[index]; 
+				index++;
+			}
+			arr[(vect.at(j)-1)] = tempStr;
+			tempStr="";
+		}
+
 	}
-	
+
+	//cout << vect.at(3)<<endl;
+	for (int p=0; p<columnAmount; p++)
+	{
+		tempStr = tempStr + arr[p];
+	}
+	cout << "temp: " << tempStr <<endl;
+
+
+	int strIndex = 0;
+	int rowIndex = 0;
+	int cycleCount = 0;
+
+	while (decryptedText.length() < tempStr.length() )
+	{
+		rowIndex = 0;
+		strIndex = cycleCount;
+
+		for (int y = 0; y<columnAmount; y++)
+		{
+			if (decryptedText.length() < tempStr.length())
+			{
+				decryptedText = decryptedText+ tempStr[strIndex];
+				cout << "strindex: " << strIndex << endl;
+			}
+			if ( rowIndex < extraLetterColumns ) 
+			{
+				//decryptedText = decryptedText+ tempStr[strIndex];
+				strIndex = strIndex + columnLength + 1;
+			}
+			else
+			{
+				//decryptedText = decryptedText+ tempStr[strIndex];
+				strIndex = strIndex + columnLength;
+			}
+			rowIndex++;
+		}
+		cycleCount++;
+	}
 
 	return decryptedText; 
 }
