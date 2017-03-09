@@ -47,6 +47,10 @@ class Playfair: public CipherInterface
 		 */
 		void printMatrix(FILE* fp);
 		
+		void CreateMatrix();
+
+		void FindMatrixIndex(char letter, int& row, int& column);
+
 		/* The protected members */
 	protected:
 	
