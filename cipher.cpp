@@ -49,10 +49,10 @@ int main(int argc, char** argv)
 
 	/* Create an instance of the Playfair cipher */	
 	//CipherInterface* cipher = new Playfair();
-	cipher = new Playfair();
+	//cipher = new Playfair();
 	//cipher = new Caesar(); // DONE
 	//cipher = new Railfence(); // DONE
-	//cipher = new RowTransposition(); // DONE
+	cipher = new RowTransposition(); // DONE
 	//cipher = new Vigenere(); // DONE
 	
 	/* Error checks */

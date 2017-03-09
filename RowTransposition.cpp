@@ -99,7 +99,9 @@ string RowTransposition::decrypt(const string& cipherText)
 	int columnAmount = vect.size(); // amount of columns
 	int columnLength = stringLength / columnAmount;
 	int extraLetterColumns = stringLength % columnAmount;
-	string arr[columnAmount];
+	//string arr[columnAmount];
+	string *arr = new string[columnAmount];
+
 	string tempStr = "";
 	//string reversedStr = "";
 	int index = 0;
@@ -171,6 +173,7 @@ string RowTransposition::decrypt(const string& cipherText)
 		}
 		cycleCount++;
 	}
+	delete [] arr;
 
 	return decryptedText; 
 }
