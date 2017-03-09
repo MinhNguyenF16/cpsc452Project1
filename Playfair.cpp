@@ -140,6 +140,7 @@ string Playfair::encrypt(const string& plainText)
 	CreateMatrix();
 
 	string encryptedText ="";
+	string newPlainText ="";
 
 	int letterIndex1 = 0;
 	int letterIndex2 = 1;
@@ -150,9 +151,38 @@ string Playfair::encrypt(const string& plainText)
 	int column2;
 
 	int plainTextIndex = 0;
+	int newPosition;
+
+	// make sure plaintext doesnt have 2 letters in a row
+	//int index = 0;
+	int counter = 0;
+
+	for (int n=0; n<plainText.length(); n++)
+	{
+		if (n%2==0) && (plainText[n] == plainText[n+1])
+		{
+			newPlainText = newPlainText + plainText[n];
+			newPlainText = newPlainText + "X";
+			counter = counter +2;
+		}
+		newPlainText = newPlainText + plainText[n];
+	}
+
+	/*
+	// make sure plainttext has even amount of letters, if not add x at the end
+	if ( (plainText.length() % 2) == 1)
+	{
+		newPlainText = plainText + "X";
+	}
+	else
+	{
+		newPlainText = plainText;
+	}
+	*/
+
 
 	//while (encryptedText.length() < plainText.length())
-	while (plainTextIndex < plainText.length())
+	while (plainTextIndex < newPlainText.length())
 	{
 		// find index of letter
 		/*
@@ -168,25 +198,58 @@ string Playfair::encrypt(const string& plainText)
 			}
 		}
 		*/
-		FindMatrixIndex( plainText[letterIndex1], row1, column1);
-		FindMatrixIndex( plainText[letterIndex2], row2, column2);
+		FindMatrixIndex( newPlainText[letterIndex1], row1, column1);
+		//cout << " * " << plainText[letterIndex1];
+		FindMatrixIndex( newPlainText[letterIndex2], row2, column2);
+		//cout << " * " << plainText[letterIndex2];
 
 		// letters for same column
 		if (column1 == column2)
 		{
-			encryptedText = encryptedText + playfairMatrix[row1+1][column1];
-			encryptedText = encryptedText + playfairMatrix[row1+1][column1];
+			// check exception over [5]
+			// last letter by itself??
+			// make sure i/j works
+			// double LL = lx lx
+			newPosition = row1+1;
+			if (newPosition == 5)
+			{
+				newPosition = 0;
+			}
+			encryptedText = encryptedText + playfairMatrix[newPosition][column1];
+
+			newPosition = row2+1;
+			if (newPosition == 5)
+			{
+				newPosition = 0;
+			}
+			encryptedText = encryptedText + playfairMatrix[newPosition][column2];
+		}
+		else if (row1 == row2)
+		{
+			newPosition = column1+1;
+			if (newPosition == 5)
+			{
+				newPosition = 0;
+			}
+			encryptedText = encryptedText + playfairMatrix[row1][newPosition];
+
+			newPosition = column2+1;
+			if (newPosition == 5)
+			{
+				newPosition = 0;
+			}
+			encryptedText = encryptedText + playfairMatrix[row2][newPosition];
+		}
+		else
+		{
+			encryptedText = encryptedText + playfairMatrix[row1][column2];
+			encryptedText = encryptedText + playfairMatrix[row2][column1];
 		}
 
-
-		//textIndex = FindMatrixIndex(plainText[plainTextIndex]);
-		//cout<< "..." << textIndex<< endl;
-		plainTextIndex++;
-
+		plainTextIndex = plainTextIndex +2;
+		letterIndex1 = letterIndex1 + 2;
+		letterIndex2 = letterIndex2 + 2;
 	}
-
-
-
 	return encryptedText; 
 }
 
