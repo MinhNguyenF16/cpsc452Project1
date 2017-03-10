@@ -12,7 +12,6 @@ int RailfenceKey;
 
 bool Railfence::setKey(const string& key)
 { 
-	//cout << key <<endl;
 	if (RailfenceKey =  stoi(key))
 	{
 		cout << "Railfence key: "<< RailfenceKey <<endl;
@@ -49,7 +48,6 @@ string Railfence::encrypt(const string& plainText)
 				encryptedText = encryptedText + plainText[index];
 				// then increment the index by key value 
 				index = index + RailfenceKey;
-				cout << index<<endl;
 			}
 
 			// increment the row index after a row is finished processing
@@ -66,7 +64,6 @@ string Railfence::encrypt(const string& plainText)
 				encryptedText = encryptedText + plainText[index];
 				// then increment the index by key value 
 				index = index + RailfenceKey;
-				cout << index<<endl;
 			}
 
 			// increment the row index after a row is finished processing
@@ -105,7 +102,6 @@ string Railfence::decrypt(const string& cipherText)
 			if ( decryptedText.length() < cipherText.length() )
 			{
 				decryptedText = decryptedText + cipherText[index];
-				cout << index << endl;
 			}
 
 			if (rowIndex < extraLetterRows)

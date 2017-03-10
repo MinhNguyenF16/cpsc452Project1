@@ -33,15 +33,15 @@ string Caesar::encrypt(const string& plainText)
 	// Adding the ascii value depending on the key value
 	for (int i=0; i<plainText.length(); i++)
 	{
-		int letterValue = int(plainText[i]) - caesarKey;
+		int letterValue = int(plainText[i]) + caesarKey;
 
-		if (letterValue >= 65)
+		if (letterValue <= 90)
 		{
 			encryptedText = encryptedText + char(letterValue);
 		}
 		else
 		{
-			letterValue = 91-(65-letterValue);
+			letterValue = (letterValue - 90) + 64;
 			encryptedText = encryptedText + char(letterValue);
 		}
 	}
@@ -61,15 +61,15 @@ string Caesar::decrypt(const string& cipherText)
 	// Adding the ascii value depending on the key value
 	for (int i=0; i<cipherText.length(); i++)
 	{
-		int letterValue = int(cipherText[i]) + caesarKey;
+		int letterValue = int(cipherText[i]) - caesarKey;
 
-		if (letterValue <= 90)
+		if (letterValue >= 65)
 		{
 			decryptedText = decryptedText + char(letterValue);
 		}
 		else
 		{
-			letterValue = (letterValue - 90) + 64;
+			letterValue = 91-(65-letterValue);
 			decryptedText = decryptedText + char(letterValue);
 		}
 	}

@@ -45,15 +45,15 @@ int main(int argc, char** argv)
 
 	/* Create an instance of a cipher */	
 	if ( cipherName == "PLF")
-		cipher = new Playfair();
+		cipher = new Playfair(); // OK
 	else if ( cipherName == "RTS")
-		cipher = new RowTransposition();
-	else if ( cipherName == "RFC")
-		cipher = new Railfence();
+		cipher = new RowTransposition(); // OK
+	else if ( cipherName == "RFC") 
+		cipher = new Railfence(); // OK
 	else if ( cipherName == "VIG")
-		cipher = new Vigenere();
+		cipher = new Vigenere(); // OK
 	else if ( cipherName == "CES")
-		cipher = new Caesar();
+		cipher = new Caesar(); // OK
 	else
 	{
 		cout << "Incorrect cipher name. Valid names are:" << endl;

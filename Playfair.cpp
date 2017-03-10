@@ -107,7 +107,6 @@ void Playfair::FindMatrixIndex(char letter, int& row, int& column)
 		{
 			if ( letter == playfairMatrix[a][b] )
 			{
-				cout << playfairMatrix[a][b]<< " ~ row: " << a << " column: " << b << endl;
 				row = a;
 				column = b;
 			}
@@ -178,7 +177,6 @@ string Playfair::encrypt(const string& plainText)
 		newPlainText = newPlainText;
 	}
 	
-	cout << "new plainText: "<< newPlainText <<endl;
 
 	while (plainTextIndex < newPlainText.length())
 	{
