@@ -156,30 +156,38 @@ string Playfair::encrypt(const string& plainText)
 	// make sure plaintext doesnt have 2 letters in a row
 	//int index = 0;
 	int counter = 0;
+	int xCounter = 0;
 
 	for (int n=0; n<plainText.length(); n++)
 	{
-		if (n%2==0) && (plainText[n] == plainText[n+1])
+		if ((counter%2==0) && (plainText[counter-xCounter] == plainText[counter-xCounter+1]))
 		{
-			newPlainText = newPlainText + plainText[n];
+			newPlainText = newPlainText + plainText[counter-xCounter];
 			newPlainText = newPlainText + "X";
 			counter = counter +2;
+			xCounter++;
 		}
-		newPlainText = newPlainText + plainText[n];
+		else
+		{
+			newPlainText = newPlainText + plainText[counter-xCounter];
+			counter++;
+		}
 	}
 
-	/*
+	
+
+	
 	// make sure plainttext has even amount of letters, if not add x at the end
-	if ( (plainText.length() % 2) == 1)
+	if ( (newPlainText.length() % 2) == 1)
 	{
-		newPlainText = plainText + "X";
+		newPlainText = newPlainText + "X";
 	}
 	else
 	{
-		newPlainText = plainText;
+		newPlainText = newPlainText;
 	}
-	*/
-
+	
+	cout << "new plainText: "<< newPlainText <<endl;
 
 	//while (encryptedText.length() < plainText.length())
 	while (plainTextIndex < newPlainText.length())
