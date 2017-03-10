@@ -13,9 +13,13 @@ int RailfenceKey;
 bool Railfence::setKey(const string& key)
 { 
 	//cout << key <<endl;
-	RailfenceKey =  stoi(key);
-	cout << "Railfence key: "<< RailfenceKey <<endl;
-	return false;  
+	if (RailfenceKey =  stoi(key))
+	{
+		cout << "Railfence key: "<< RailfenceKey <<endl;
+		return true;
+	}
+	else
+		return false;  
 }
 
 

@@ -13,11 +13,14 @@ int caesarKey;
 bool Caesar::setKey(const string& key)
 { 
 	//cout << key <<endl;
-	caesarKey =  stoi(key);
-	cout << "Caesar key: "<< caesarKey <<endl;
-	return false;  
+	if (caesarKey =  stoi(key))
+	{
+		cout << "Caesar key: "<< caesarKey <<endl;
+		return true;
+	}
+	else
+		return false;  
 }
-
 
 /**	
  * Encrypts a plaintext string

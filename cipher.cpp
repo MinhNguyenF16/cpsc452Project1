@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// function to make string all uppercase
 void toUppercase(string& str)
 {
 	for (int i=0; i<str.length(); i++)
@@ -20,11 +21,6 @@ void toUppercase(string& str)
 
 int main(int argc, char** argv)
 {
-	/* REPLACE THIS PART WITH YOUR CODE 
-	 * THE CODE BELOW IS A SAMPLE TO 
-	 * ILLUSTRATE INSTANTIATION OF CLASSES
-	 * THAT USE THE SAME INTERFACE.
-	 */	
 	string cipherName = argv[1];
 	string key = argv[2];
 	string mode = argv[3];
@@ -36,25 +32,40 @@ int main(int argc, char** argv)
 
 	// open file and read
 	ifstream readFile;
-	readFile.open(inputFile.c_str());
 	string inputData;	
+
+	readFile.open(inputFile.c_str());
 	readFile >> inputData;
 	readFile.close(); 
+
 	toUppercase(inputData); // Converting the data into all uppercase
 	cout << "Data received: "<< inputData << endl;
-	//cout << char(int('A')) << "  " << int('B')<< "  " << int('c')<<endl;
-
 		
 	CipherInterface* cipher = NULL;
 
-	/* Create an instance of the Playfair cipher */	
-	//CipherInterface* cipher = new Playfair();
-	cipher = new Playfair();
-	//cipher = new Caesar(); // DONE
-	//cipher = new Railfence(); // DONE
-	//cipher = new RowTransposition(); // DONE
-	//cipher = new Vigenere(); // DONE
-	
+	/* Create an instance of a cipher */	
+	if ( cipherName == "PLF")
+		cipher = new Playfair();
+	else if ( cipherName == "RTS")
+		cipher = new RowTransposition();
+	else if ( cipherName == "RFC")
+		cipher = new Railfence();
+	else if ( cipherName == "VIG")
+		cipher = new Vigenere();
+	else if ( cipherName == "CES")
+		cipher = new Caesar();
+	else
+	{
+		cout << "Incorrect cipher name. Valid names are:" << endl;
+		cout << "– PLF: Playfair\n"<<
+				"– RTS: Row Transposition\n"<<
+				"– RFC: Railfence\n"<<
+				"– VIG: Vigenre\n"<<
+				"– CES: Caesar\n";
+		cout << "Execution: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUTFILE> <OUTPUT FILE>\n";
+		exit(-1);
+	}
+
 	/* Error checks */
 	if(!cipher)
 	{
@@ -64,41 +75,46 @@ int main(int argc, char** argv)
 	}
 	
 	/* Set the encryption key */
-	//cipher->setKey("security");
-	cipher->setKey(key);
+	// Shows error message if it returns false (invalid key)
+	if (cipher->setKey(key) == false) 
+	{
+		cout << "Invalid key. Key validations: " << endl;
+		cout << "– PLF: String of regular letters. Ex: kingdom...\n"<<
+				"– RTS: Separated by (,) integers. Ex: 5,2,1,3,4\n"<<
+				"– RFC: An integer. Ex: 4\n"<<
+				"– VIG: String of regular letters. Ex: security...\n"<<
+				"– CES: An integer 1-25. Ex: 7\n";
+		cout << "Execution: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUTFILE> <OUTPUT FILE>\n";
+		exit(-1);
+	}
 	
 	/* Perform encryption */
 	if (mode == "ENC")
 	{
 		string cipherText = cipher->encrypt(inputData);
-		cout << "Cipher text: "<< cipherText<<endl;
+		cout << "Post-Encryption Ciphertext: "<< cipherText<<endl;
 		outputData = cipherText;
 	}
 	
 	/* Perform decryption */
 	else if (mode == "DEC")
 	{
-		//string plainText = cipher->decrypt(cipherText);
 		string plainText = cipher->decrypt(inputData);
-		cout << "Plain text: "<< plainText<<endl;
+		cout << "Post-Decryption Plaintext: "<< plainText<<endl;
 		outputData = plainText;
 	}
 	else
 	{
-		cout << "Bad mode enter: ENC or DEC"<< endl;
+		cout << "Bad mode. Please enter: ENC (encryption) or DEC (decryption)"<< endl;
+		cout << "Execution: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUTFILE> <OUTPUT FILE>\n";
 	}
 
 	// writing output file
 	ofstream writeFile;
-	//writeFile.open("writingsample.txt");
-	//string outputdata = "zzzzzzz";
-	//writeFile << outputdata;
 	writeFile.open(outputFile);
 	writeFile << outputData;
 	writeFile.close(); 
-	//cout << data << endl;
 
-	
 	return 0;
 }
 

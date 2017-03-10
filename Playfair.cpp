@@ -18,42 +18,27 @@ bool duplicate = false;
 
 bool Playfair::setKey(const string& key)
 { 
+	int charValue;
 	PlayfairKey =  key;
 
-	// ensure all key are uppercase
+	// ensure all key are uppercase and valid letters
 	for (int j=0; j<PlayfairKey.length(); j++)
 	{
+		charValue = int(PlayfairKey[j]);
+		if (((charValue < 65) || (charValue > 90)) && ((charValue < 97) || (charValue > 122)))
+		{
+			return false;
+		}
+
 		PlayfairKey[j] = toupper(PlayfairKey[j]);
 	}
 
-	/*
-	// reduce the key to have only unique letters
-	for (int k=0; k<PlayfairKey.length(); k++)
-	{
-		duplicate = false; 
-
-		for (int l=0; l<temp.length(); l++)
-		{
-			if (PlayfairKey[k] == temp[l])
-			{
-				duplicate = true;
-			}
-			//temp = temp + PlayfairKey[k];
-		}
-
-		if (duplicate == false)
-		{
-			temp = temp + PlayfairKey[k];
-		}
-	}
-	*/
 	cout << "Playfair key: "<< PlayfairKey <<endl;
 
-	return false;  
+	return true;  
 }
 
 // creating string with unique alphabet letters to prepare for matrix insertion
-// void creatingmatrix?
 void Playfair::CreateMatrix()
 {
 	int count = 0;
@@ -73,7 +58,6 @@ void Playfair::CreateMatrix()
 			{
 				duplicate = true;
 			}
-			//temp = temp + PlayfairKey[k];
 		}
 
 		if (duplicate == false)
@@ -110,7 +94,6 @@ void Playfair::CreateMatrix()
 		}
 		cout << endl;
 	}
-
 }
 
 void Playfair::FindMatrixIndex(char letter, int& row, int& column)
@@ -122,7 +105,6 @@ void Playfair::FindMatrixIndex(char letter, int& row, int& column)
 			if ( letter == playfairMatrix[a][b] )
 			{
 				cout << playfairMatrix[a][b]<< " ~ row: " << a << " column: " << b << endl;
-				//plainTextIndex++;
 				row = a;
 				column = b;
 			}
@@ -140,6 +122,7 @@ string Playfair::encrypt(const string& plainText)
 	CreateMatrix();
 
 	string encryptedText ="";
+	string filteredText ="";
 	string newPlainText ="";
 
 	int letterIndex1 = 0;
@@ -153,29 +136,34 @@ string Playfair::encrypt(const string& plainText)
 	int plainTextIndex = 0;
 	int newPosition;
 
-	// make sure plaintext doesnt have 2 letters in a row
-	//int index = 0;
 	int counter = 0;
 	int xCounter = 0;
 
-	for (int n=0; n<plainText.length(); n++)
+	// make sure all 'J' become 'I'	
+	for (int q=0; q<plainText.length(); q++)
 	{
-		if ((counter%2==0) && (plainText[counter-xCounter] == plainText[counter-xCounter+1]))
+		if ( plainText[q] == 'J')
+			filteredText = filteredText + 'I';
+		else
+			filteredText = filteredText + plainText[q];
+	}
+
+	// make sure plaintext doesnt have 2 letters in a row
+	for (int n=0; n<filteredText.length(); n++)
+	{
+		if ((counter%2==0) && (filteredText[counter-xCounter] == filteredText[counter-xCounter+1]))
 		{
-			newPlainText = newPlainText + plainText[counter-xCounter];
+			newPlainText = newPlainText + filteredText[counter-xCounter];
 			newPlainText = newPlainText + "X";
 			counter = counter +2;
 			xCounter++;
 		}
 		else
 		{
-			newPlainText = newPlainText + plainText[counter-xCounter];
+			newPlainText = newPlainText + filteredText[counter-xCounter];
 			counter++;
 		}
 	}
-
-	
-
 	
 	// make sure plainttext has even amount of letters, if not add x at the end
 	if ( (newPlainText.length() % 2) == 1)
@@ -189,36 +177,18 @@ string Playfair::encrypt(const string& plainText)
 	
 	cout << "new plainText: "<< newPlainText <<endl;
 
-	//while (encryptedText.length() < plainText.length())
 	while (plainTextIndex < newPlainText.length())
 	{
 		// find index of letter
-		/*
-		for (int a=0; a<5; a++)
-		{
-			for (int b=0; b<5; b++)
-			{
-				if ( plainText[plainTextIndex] == playfairMatrix[a][b] )
-				{
-					cout << playfairMatrix[a][b]<< " ~ row: " << a << " column: " << b << endl;
-					plainTextIndex++;
-				}
-			}
-		}
-		*/
 		FindMatrixIndex( newPlainText[letterIndex1], row1, column1);
-		//cout << " * " << plainText[letterIndex1];
 		FindMatrixIndex( newPlainText[letterIndex2], row2, column2);
-		//cout << " * " << plainText[letterIndex2];
 
 		// letters for same column
 		if (column1 == column2)
 		{
-			// check exception over [5]
-			// last letter by itself??
-			// make sure i/j works
-			// double LL = lx lx
 			newPosition = row1+1;
+
+			// if the new position is over the array limit, bring it back to 0
 			if (newPosition == 5)
 			{
 				newPosition = 0;
@@ -232,6 +202,7 @@ string Playfair::encrypt(const string& plainText)
 			}
 			encryptedText = encryptedText + playfairMatrix[newPosition][column2];
 		}
+		// letters for the same row
 		else if (row1 == row2)
 		{
 			newPosition = column1+1;
@@ -268,7 +239,81 @@ string Playfair::encrypt(const string& plainText)
  */
 string Playfair::decrypt(const string& cipherText) 
 { 
+	CreateMatrix();
+
 	string decryptedText ="";
+	string newCipherText ="";
+
+	int newPosition;
+	int cipherTextIndex = 0;
+	int letterIndex1 = 0;
+	int letterIndex2 = 1;
+	int row1;
+	int column1;
+	int row2;
+	int column2;
+
+
+	// make sure all 'J' become 'I'	
+	for (int q=0; q<cipherText.length(); q++)
+	{
+		if ( cipherText[q] == 'J')
+			newCipherText = newCipherText + 'I';
+		else
+			newCipherText = newCipherText + cipherText[q];
+	}
+
+	while (cipherTextIndex < newCipherText.length())
+	{
+		FindMatrixIndex( newCipherText[letterIndex1], row1, column1);
+		FindMatrixIndex( newCipherText[letterIndex2], row2, column2);
+
+		// letters for same column
+		if (column1 == column2)
+		{
+			newPosition = row1-1;
+
+			// if the new position is -1, bring it back to 4
+			if (newPosition == -1)
+			{
+				newPosition = 4;
+			}
+			decryptedText = decryptedText + playfairMatrix[newPosition][column1];
+
+			newPosition = row2-1;
+			if (newPosition == -1)
+			{
+				newPosition = 4;
+			}
+			decryptedText = decryptedText + playfairMatrix[newPosition][column2];
+		}
+		// letters for the same row
+		else if (row1 == row2)
+		{
+			newPosition = column1-1;
+			if (newPosition == -1)
+			{
+				newPosition = 4;
+			}
+			decryptedText = decryptedText + playfairMatrix[row1][newPosition];
+
+			newPosition = column2-1;
+			if (newPosition == -1)
+			{
+				newPosition = 4;
+			}
+			decryptedText = decryptedText + playfairMatrix[row2][newPosition];
+		}
+		else
+		{
+			decryptedText = decryptedText + playfairMatrix[row1][column2];
+			decryptedText = decryptedText + playfairMatrix[row2][column1];
+		}
+
+		cipherTextIndex = cipherTextIndex +2;
+		letterIndex1 = letterIndex1 + 2;
+		letterIndex2 = letterIndex2 + 2;
+	}
 
 	return decryptedText; 
 	

@@ -10,23 +10,25 @@ using namespace std;
  */
 string VigenereKey;
 
-
 bool Vigenere::setKey(const string& key)
 { 
-	//cout << key <<endl;
+	int charValue;
 	VigenereKey =  key;
 
-	// ensure all key are uppercase
+	// ensure all key are uppercase and valid letters
 	for (int j=0; j<VigenereKey.length(); j++)
 	{
+		charValue = int(VigenereKey[j]);
+		if (((charValue < 65) || (charValue > 90)) && ((charValue < 97) || (charValue > 122)))
+		{
+			return false;
+		}
+
 		VigenereKey[j] = toupper(VigenereKey[j]);
 	}
 
-	//VigenereKey =  key;
-	//cout << "Vigenere key: "<< VigenereKey <<endl;
-	return false;  
+	return true;  
 }
-
 
 /**	
  * Encrypts a plaintext string
@@ -47,7 +49,7 @@ string Vigenere::encrypt(const string& plainText)
 		{
 			temp = (int(VigenereKey[i]) - 65 ) + (int(plainText[index]) );
 			
-			//temp = temp + 65; // put the value into A-Z ASCII range, 65-90
+			// put the value into A-Z ASCII range, 65-90
 			if (temp > 90)
 			{
 				temp = temp - 90 + 64;
@@ -58,15 +60,11 @@ string Vigenere::encrypt(const string& plainText)
 				newChar = char(temp);
 				encryptedText = encryptedText + newChar;
 			}
-			cout << newChar<< " "<< temp<<endl;
 			
-			//encryptedText = encryptedText + newChar;
+			cout << newChar<< " "<< temp<<endl;		
 			index++;
-		}
-		
+		}	
 	}
-	
-
 	return encryptedText; 
 }
 
@@ -89,7 +87,7 @@ string Vigenere::decrypt(const string& cipherText)
 		{
 			temp = ( int(cipherText[index]) - (int(VigenereKey[i]) - 65 )  );
 			
-			//temp = temp + 65; // put the value into A-Z ASCII range, 65-90
+			// put the value into A-Z ASCII range, 65-90
 			if (temp < 65)
 			{
 				temp = 91 - (65 - temp);
@@ -100,12 +98,10 @@ string Vigenere::decrypt(const string& cipherText)
 				newChar = char(temp);
 				decryptedText = decryptedText + newChar;
 			}
+
 			cout << newChar<< " "<< temp<<endl;
-			
-			//encryptedText = encryptedText + newChar;
 			index++;
 		}
-		
 	}
 	
 	return decryptedText; 
