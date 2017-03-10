@@ -12,7 +12,6 @@ int caesarKey;
 
 bool Caesar::setKey(const string& key)
 { 
-	//cout << key <<endl;
 	if (caesarKey =  stoi(key))
 	{
 		cout << "Caesar key: "<< caesarKey <<endl;
@@ -30,8 +29,8 @@ bool Caesar::setKey(const string& key)
 string Caesar::encrypt(const string& plainText)
 { 
 	string encryptedText ="";
-	// ASCII value: A = 65, B = 66 ... Z = 90 
-	//cout << plaintext<<endl;
+	// Assigning ascii value to the letter, ASCII value: A = 65, B = 66 ... Z = 90 
+	// Adding the ascii value depending on the key value
 	for (int i=0; i<plainText.length(); i++)
 	{
 		int letterValue = int(plainText[i]) - caesarKey;
@@ -58,6 +57,8 @@ string Caesar::decrypt(const string& cipherText)
 { 
 	string decryptedText ="";
 
+	// Assigning ascii value to the letter, ASCII value: A = 65, B = 66 ... Z = 90 
+	// Adding the ascii value depending on the key value
 	for (int i=0; i<cipherText.length(); i++)
 	{
 		int letterValue = int(cipherText[i]) + caesarKey;

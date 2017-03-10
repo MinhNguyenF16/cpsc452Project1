@@ -17,6 +17,7 @@ bool RowTransposition::setKey(const string& key)
 { 
 	int i;
 	stringstream strstream(key);
+	// input the key into a vector
 	while (strstream >> i)
     {
         vect.push_back(i);
@@ -50,7 +51,7 @@ string RowTransposition::encrypt(const string& plainText)
 			{
 				index = x * columnAmount + (vect.at(vectorIndex) - 1 );
 				encryptedText = encryptedText + plainText[index];
-				cout<< index <<" ";
+				//cout<< index <<" ";
 			}
 			vectorIndex++;
 		}
@@ -60,12 +61,12 @@ string RowTransposition::encrypt(const string& plainText)
 			{
 				index = x * columnAmount + (vect.at(vectorIndex) - 1 );
 				encryptedText = encryptedText + plainText[index];
-				cout<< index <<" ";
+				//cout<< index <<" ";
 			}
 			vectorIndex++;
 		}
 	}
-	cout << stringLength<< " "<< columnAmount <<" " << columnLength<<" "<< extraLetterColumns<< endl;
+	//cout << stringLength<< " "<< columnAmount <<" " << columnLength<<" "<< extraLetterColumns<< endl;
 	return encryptedText; 
 }
 
@@ -83,6 +84,7 @@ string RowTransposition::decrypt(const string& cipherText)
 	int columnLength = stringLength / columnAmount;
 	int extraLetterColumns = stringLength % columnAmount;
 
+	// create dynamic array to prepare for the letters insertion
 	string *arr = new string[columnAmount];
 	string tempStr = "";
 	int index = 0;
@@ -91,10 +93,10 @@ string RowTransposition::decrypt(const string& cipherText)
 	{
 		if (vect.at(j) < extraLetterColumns+1)
 		{
-			cout << "vector val: " << vect.at(j)<<endl;
+			//cout << "vector val: " << vect.at(j)<<endl;
 			for (int a = 0; a < columnLength+1; a++)
 			{
-				cout << "index : "<< index << endl;
+				//cout << "index : "<< index << endl;
 				tempStr = tempStr + cipherText[index];	
 				index++;		
 			}
@@ -103,10 +105,10 @@ string RowTransposition::decrypt(const string& cipherText)
 		}
 		else
 		{
-			cout << "vector val: " << vect.at(j)<<endl;
+			//cout << "vector val: " << vect.at(j)<<endl;
 			for (int a = 0; a < columnLength; a++)
 			{
-				cout << "index : "<< index << endl;
+				//cout << "index : "<< index << endl;
 				tempStr = tempStr + cipherText[index]; 
 				index++;
 			}
@@ -120,7 +122,7 @@ string RowTransposition::decrypt(const string& cipherText)
 	{
 		tempStr = tempStr + arr[p];
 	}
-	cout << "temp: " << tempStr <<endl;
+	//cout << "temp: " << tempStr <<endl;
 
 	int strIndex = 0;
 	int rowIndex = 0;
@@ -136,7 +138,7 @@ string RowTransposition::decrypt(const string& cipherText)
 			if (decryptedText.length() < tempStr.length())
 			{
 				decryptedText = decryptedText+ tempStr[strIndex];
-				cout << "strindex: " << strIndex << endl;
+				//cout << "strindex: " << strIndex << endl;
 			}
 			if ( rowIndex < extraLetterColumns ) 
 			{

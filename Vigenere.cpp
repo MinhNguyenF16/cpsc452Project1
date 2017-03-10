@@ -54,14 +54,14 @@ string Vigenere::encrypt(const string& plainText)
 			{
 				temp = temp - 90 + 64;
 			}
-			cout << temp << "~~";
+			//cout << temp << "~~";
 			if (temp > 64 && temp < 91)
 			{
 				newChar = char(temp);
 				encryptedText = encryptedText + newChar;
 			}
 			
-			cout << newChar<< " "<< temp<<endl;		
+			//cout << newChar<< " "<< temp<<endl;		
 			index++;
 		}	
 	}
@@ -92,14 +92,14 @@ string Vigenere::decrypt(const string& cipherText)
 			{
 				temp = 91 - (65 - temp);
 			}
-			cout << temp << "~~";
+			//cout << temp << "~~";
 			if (temp > 64 && temp < 91)
 			{
 				newChar = char(temp);
 				decryptedText = decryptedText + newChar;
 			}
 
-			cout << newChar<< " "<< temp<<endl;
+			//cout << newChar<< " "<< temp<<endl;
 			index++;
 		}
 	}
