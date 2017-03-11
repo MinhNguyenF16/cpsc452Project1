@@ -5,6 +5,7 @@
 #include "Railfence.h"
 #include "RowTransposition.h"
 #include "Vigenere.h"
+#include "Hill.h"
 #include <iostream>
 #include <fstream>
 
@@ -54,6 +55,8 @@ int main(int argc, char** argv)
 		cipher = new Vigenere(); // OK
 	else if ( cipherName == "CES")
 		cipher = new Caesar(); // OK
+	else if ( cipherName == "HIL")
+		cipher = new Hill();
 	else
 	{
 		cout << "Incorrect cipher name. Valid names are:" << endl;
@@ -61,7 +64,8 @@ int main(int argc, char** argv)
 				"– RTS: Row Transposition\n"<<
 				"– RFC: Railfence\n"<<
 				"– VIG: Vigenre\n"<<
-				"– CES: Caesar\n";
+				"– CES: Caesar\n"<<
+				"_ HIL: Hill\n";
 		cout << "Execution: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUTFILE> <OUTPUT FILE>\n";
 		exit(-1);
 	}
@@ -83,7 +87,8 @@ int main(int argc, char** argv)
 				"– RTS: Separated by (,) integers. Ex: 5,2,1,3,4\n"<<
 				"– RFC: An integer. Ex: 4\n"<<
 				"– VIG: String of regular letters. Ex: security...\n"<<
-				"– CES: An integer 1-25. Ex: 7\n";
+				"– CES: An integer 1-25. Ex: 7\n"<<
+				"– HIL: 4 integers separated by (,). Ex: 3,4,9,7...\n";
 		cout << "Execution: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUTFILE> <OUTPUT FILE>\n";
 		exit(-1);
 	}

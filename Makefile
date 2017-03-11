@@ -1,7 +1,7 @@
 all:	cipher
 
-cipher:	cipher.o Playfair.o Caesar.o Railfence.o RowTransposition.o Vigenere.o
-	g++ -std=c++11 cipher.o Playfair.o Caesar.o Railfence.o RowTransposition.o Vigenere.o -o cipher
+cipher:	cipher.o Playfair.o Caesar.o Railfence.o RowTransposition.o Vigenere.o Hill.o
+	g++ -std=c++11 cipher.o Playfair.o Caesar.o Railfence.o RowTransposition.o Vigenere.o Hill.o -o cipher
 
 cipher.o:	cipher.cpp
 	g++ -std=c++11 -g -c cipher.cpp 
@@ -20,6 +20,9 @@ RowTransposition.o: RowTransposition.cpp RowTransposition.h CipherInterface.h
 
 Vigenere.o: Vigenere.cpp Vigenere.h CipherInterface.h
 	g++ -std=c++11 -g -c Vigenere.cpp
+
+Hill.o: Hill.cpp Hill.h CipherInterface.h
+	g++ -std=c++11 -g -c Hill.cpp
 
 # Uncomment this code once you add the appropriate files
 #RowTransposition.o:	RowTransposition.cpp RowTransposition.h
